@@ -56,28 +56,39 @@
 
         </div>
 
-       <section class="flex justify-between bg-white shadow-sm p-8 md:flex-row flex-col">
-        <div class="flex items-center gap-1">
-            <img src="./assets/Aperture.png" alt="" class="w-12 bg-[#ECE4FF] rounded-full p-2">
-            <div>
-                <p class="font-bold text-xl"><span  id="issue-count">50</span> Issues</p>
-                <p class="text-[#64748B]">Track and manage your project issues</p>
+        <section class="flex justify-between bg-white shadow-sm p-8 md:flex-row flex-col">
+            <div class="flex items-center gap-1">
+                <img src="./assets/Aperture.png" alt="" class="w-12 bg-[#ECE4FF] rounded-full p-2">
+                <div>
+                    <p class="font-bold text-xl"><span id="issue-count">50</span> Issues</p>
+                    <p class="text-[#64748B]">Track and manage your project issues</p>
+                </div>
             </div>
-        </div>
 
-        <div class="flex items-center gap-3">
-            <span class="bg-[#00A96E] h-4 w-4 rounded-full"></span>
-            <p>Open</p>
-            <span class="bg-[#A855F7] h-4 w-4 rounded-full"></span>
-            <p>Closed</p>
-        </div>
-       </section>
+            <div class="flex items-center gap-3">
+                <span class="bg-[#00A96E] h-4 w-4 rounded-full"></span>
+                <p>Open</p>
+                <span class="bg-[#A855F7] h-4 w-4 rounded-full"></span>
+                <p>Closed</p>
+            </div>
+        </section>
 
-       <!-- card container -->
+        <!-- loading spinner -->
+        <section id="spinner" class="flex justify-center items-center py-5 hidden">
+            <span class="loading loading-ball loading-xs"></span>
+            <span class="loading loading-ball loading-sm"></span>
+            <span class="loading loading-ball loading-md"></span>
+            <span class="loading loading-ball loading-lg"></span>
+            <span class="loading loading-ball loading-xl"></span>
+        </section>
 
-       <section id="card-container" class=" bg-white grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-5 gap-3">
 
-        <!-- <div class="border-t-4 border-green-500 rounded-md shadow-lg p-4 space-y-3"> 
+
+        <!-- card container -->
+
+        <section id="card-container" class=" bg-white grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 p-5 gap-3">
+
+            <!-- <div class="border-t-4 border-green-500 rounded-md shadow-lg p-4 space-y-3"> 
 
             <div class="flex justify-between">
                 <img src="./assets/Open-Status.png" alt="">
@@ -103,28 +114,28 @@
                 <span class="text-[#64748B] text-[12px]">2024-01-15T10:3000Z</span>
             </div>
         </div> -->
-       </section>
+        </section>
 
     </section>
 
-   <!-- Open the modal using ID.showModal() method -->
-<!-- <button class="btn" onclick="my_modal.showModal()">open modal</button> -->
-<dialog id="my_modal" class="modal">
-  <div class="modal-box">
-    <div id="modal-container">
+    <!-- Open the modal using ID.showModal() method -->
+    <!-- <button class="btn" onclick="my_modal.showModal()">open modal</button> -->
+    <dialog id="my_modal" class="modal">
+        <div class="modal-box">
+            <div id="modal-container">
 
-    </div>
-    <div class="modal-action">
-      <form method="dialog">
-        <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">Close</button>
-      </form>
-    </div>
-  </div>
-</dialog>
+            </div>
+            <div class="modal-action">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn btn-soft btn-primary outline-none">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 
-<script src="script.js"></script>
- 
+    <script src="script.js"></script>
+
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 let allIssues = [];
-// this function api er  allarray element thake   new arraycreate kore
+// this function api  er labels array   theke akta kore label annar jonno
 const labelElement = (arr)=>{
     const htmlElement = arr.map((el)=>`<span class="  badge bg-amber-200 text-[12px]">${el}</span>`)
    return (htmlElement.join(" "))
@@ -11,7 +11,19 @@ const updateIssueCount = (data) => {
      issueCount.textContent = data.length;
 }
 
+// loading spinner function
+const manageSpinner = (status) =>{
+   if(status == true){
+     document.getElementById('spinner').classList.remove("hidden")
+     document.getElementById('card-container').classList.add("hidden")
+   }else{
+    document.getElementById('card-container').classList.remove("hidden")
+     document.getElementById('spinner').classList.add("hidden")
+   }
+}
+
 const allCardData = () => {
+    manageSpinner(true)
     const url = ('https://phi-lab-server.vercel.app/api/v1/lab/issues')
     fetch(url)
         .then((res) => res.json())
@@ -19,6 +31,7 @@ const allCardData = () => {
             allIssues = data.data;
             updateIssueCount(allIssues);
             displayCardData(allIssues);
+            manageSpinner(false)
         })
 }
 
@@ -38,13 +51,13 @@ const displayCardData = (datas) => {
             <p class="line-clamp-2 text-gray-400">${data.description}</p>
             <div>${labelElement(data.labels)}</div>
             <hr class="text-gray-300">
-            <div class="flex flex-col gap-3">
-                <span class="text-[#64748B] text-[12px]">${data.author}</span>
-                <span class="text-[#64748B] text-[12px]">${data.createdAt}</span>
+            <div class="flex flex-col gap-1">
+                <span class="text-[#64748B] text-[12px]"># ${data.id} by ${data.author}</span>
+                <span class="text-[#64748B] text-[12px]">${new Date(data.createdAt).toDateString()}</span>
             </div>
-            <div class="flex flex-col gap-3">
+            <div class="flex flex-col gap-1">
                 <span class="text-[#64748B] text-[12px]">${data.assignee}</span>
-                <span class="text-[#64748B] text-[12px]">${data.updatedAt}</span>
+                <span class="text-[#64748B] text-[12px]">${new Date(data.updatedAt).toDateString()}</span>
             </div>
         </div>`
         cardContainer.appendChild(newDiv);
@@ -74,16 +87,25 @@ const btnFilters = () => {
 
     btnOpen.addEventListener('click', () => {
         setActive(btnOpen);
-        const filtered = allIssues.filter(ele => ele.status === 'open');
+        manageSpinner(true)
+        // settimeout diche sudu loading spinner dekar jonno
+        setTimeout(() => {
+            const filtered = allIssues.filter(ele => ele.status === 'open');
         updateIssueCount(filtered);
         displayCardData(filtered);
+        manageSpinner(false)
+        }, 100);
     });
 
     btnClosed.addEventListener('click', () => {
         setActive(btnClosed);
+        manageSpinner(true)
+        setTimeout(()=>{
         const filtered = allIssues.filter(ele => ele.status === 'closed');
         updateIssueCount(filtered);
         displayCardData(filtered);
+        manageSpinner(false)
+        },100)
     });
 }
 
@@ -126,3 +148,19 @@ document.getElementById("my_modal").showModal();
 
 allCardData();
 btnFilters();
+
+document.getElementById('btn-search').addEventListener("click",()=>{
+    const inputSearch = document.getElementById('input-search')
+    const searchValue = inputSearch.value.trim().toLowerCase();
+    // console.log(searchValue)
+manageSpinner(true)
+    fetch(` https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchValue}`)
+    .then(res => res.json())
+    .then(data =>{
+        displayCardData(data.data)
+        updateIssueCount(data.data)
+        manageSpinner(false)
+    })
+})
+
+
