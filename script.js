@@ -29,7 +29,7 @@ const displayCardData = (datas) => {
     datas.forEach(data => {
         const newDiv = document.createElement("div")
         newDiv.innerHTML = `
-        <div class="border-t-4 ${data.status == 'open' ? 'border-[#00A96E]' : 'border-[#A855F7]'} rounded-md shadow-lg p-4 space-y-2 flex flex-col h-full">
+        <div  onclick='modalDetails(${data.id})'  class="border-t-4 ${data.status == 'open' ? 'border-[#00A96E]' : 'border-[#A855F7]'} rounded-md shadow-lg p-4 space-y-2 flex flex-col h-full">
             <div class="flex justify-between">
                 <img src="${data.status == 'open' ? './assets/Open-Status.png' : './assets/Closed- Status .png'}" alt="">
                 <p class="badge rounded-md p-2 ${data.priority == 'high' ? 'bg-red-200 text-[#EF4444]' : data.priority == 'medium' ? 'bg-[#FFF6D1] text-[#F59E0B]' : 'bg-gray-200 text-gray-600'}">${data.priority}</p>
@@ -87,6 +87,42 @@ const btnFilters = () => {
     });
 }
 
+// modal api used and display the card
+const modalDetails = (id)=>{
+    const urlModal = (`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+    fetch(urlModal)
+    .then((res) =>res.json())
+    .then((data)=>displayModal(data.data))
+}
+const displayModal =(data)=>{
+     console.log(data)
+const modalContainer = document.getElementById('modal-container')
+modalContainer.innerHTML = `
+<h2 class="font-medium text-xl line-clamp-2 mb-2">${data.title}</h2>
+ <div class="flex  gap-3 space-y-2">
+         <span class="text-white text-[12px] rounded-full items-center p-1 ${data.status=='open'? 'bg-lime-500 ': 'bg-red-400 '}">${data.status}</span>
+                <span class="text-[#64748B] text-[12px]">Opened by ${data.assignee}</span>
+                <span class="text-[#64748B] text-[12px]">${new Date(data.updatedAt).toDateString() }</span>
+            </div>
+
+            <div>${labelElement(data.labels)}</div>
+             <p class="line-clamp-2 text-gray-500 mt-2">${data.description}</p>
+
+              <div class="bg-slate-200 flex justify-between mt-2 p-4 rounded-md">
+                <div>
+                        <p class="text-[12px] text-[#64748B]">Assignee:</p>
+                        <p class="font-bold text-[16px]">${data.assignee}</p>
+                    </div>
+
+                    <div>
+                    <p class="text-[12px] text-[#64748B]">Priority:</p>
+                     <p class="badge rounded-md p-2 ${data.priority == 'high' ? 'bg-red-200 text-[#EF4444]' : data.priority == 'medium' ? 'bg-[#FFF6D1] text-[#F59E0B]' : 'bg-gray-200 text-gray-600'}">${data.priority}</p>
+                    </div>
+              </div>
+
+`
+document.getElementById("my_modal").showModal();
+}
 
 allCardData();
 btnFilters();
